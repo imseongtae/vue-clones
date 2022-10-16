@@ -1,4 +1,17 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-pnpm echo "이 메시지는 커밋전에 출력됨"
+# DESC: Stop accidental commits to main branch
+ 
+BRANCH=`git rev-parse --abbrev-ref HEAD`
+ 
+if [[ "$BRANCH" == "main" ]]; then
+  # echo -e "You are on \e[31m\e[1m[ $BRANCH ]\e[0m branch . You can not directly commit on \e[31m\e[1m[ $BRANCH ] \e[0mbranch"
+  echo -e "You are on [ $BRANCH ] branch. You can not directly commit on [ $BRANCH ] branch."
+  echo -e "Please checkout the other branch and commit"
+  exit 1
+fi
+
+echo "이 메시지는 커밋전에 출력됨"
+
+exit 0
